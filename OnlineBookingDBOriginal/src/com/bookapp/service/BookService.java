@@ -48,7 +48,10 @@ public class BookService implements IBookService {
 
 			preparedStatement = connection.prepareStatement(getBookById);
 			preparedStatement.setInt(1, bookid);
-			preparedStatement.execute();
+			int delete=preparedStatement.executeUpdate();
+			if(delete==0) {
+throw new BookNotFoundException("BOOK ID IS NOT FOUND");
+			}
 //			ResultSet resultSet = preparedStatement.executeQuery();
 		flag = true;
 
@@ -100,8 +103,11 @@ public class BookService implements IBookService {
 			preparedStatement = connection.prepareStatement(getBookById);
 			preparedStatement.setInt(1, price);
 			preparedStatement.setInt(2, bookid);
-			preparedStatement.execute();
-//			ResultSet resultSet = preparedStatement.executeQuery();
+			int update=preparedStatement.executeUpdate();
+			if(update==0) {
+				System.out.println("BOOK ID IS NOT FOUND");
+				System.exit(0);
+			}
 			flag = true;
 			preparedStatement.close();
 		} catch (SQLException e) {

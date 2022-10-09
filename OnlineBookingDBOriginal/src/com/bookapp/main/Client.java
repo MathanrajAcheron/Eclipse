@@ -67,8 +67,6 @@ public class Client {
 						boolean updated = bookService.updateBook(id, price);
 						if (updated) {
 							System.out.println("UPDATED SUCCESSFULLY");
-						} else {
-							System.out.println("NOT UPDATED Check Bookid is correct?");
 						}
 						break;
 					case 3:
@@ -85,8 +83,10 @@ public class Client {
 						System.out.println("Enter the BookID : ");
 						int presentId = sc.nextInt();
 						// System.out.println(bookimpl.getBookById(presentId));
-						System.out.println(
-						bookService.getBookById(presentId));
+						if(bookService.getBookById(presentId)==null) {
+							System.out.println("BOOK ID IS NOT FOUND...");
+							System.exit(0);
+						}
 
 						break;
 					default:
@@ -105,7 +105,7 @@ public class Client {
 
 
 		} catch (Exception e) {
-			System.out.println("Try Again... \n");
+			System.out.println("Try Again... \n"+e.getMessage());
 		} finally {
 			System.out.println("\nThank you for using our App...");
 			ModelDAO.closeConnection();
