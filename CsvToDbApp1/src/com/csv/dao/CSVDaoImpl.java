@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import com.csv.model.Employee;
-import com.csv.service.ModelDAO;
+import com.csv.util.ModelDAO;
 
 public class CSVDaoImpl implements CSVDao {
 

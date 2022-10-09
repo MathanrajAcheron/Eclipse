@@ -15,9 +15,9 @@ public interface BookInter {
 	Book getBookById(int bookid) throws BookNotFoundException;
 	boolean updateBook(int bookid,int price);
 	
-	// called by customer
-	List<Book> getAllBooks();
-	List<Book> getBookbyAuthor(String author) throws AuthorNotFoundException;;
-	List<Book> getBookbycategory(String category)throws CategoryNotFoundException;;
+//	// called by customer
+//	List<Book> getAllBooks();
+//	List<Book> getBookbyAuthor(String author) throws AuthorNotFoundException;;
+//	List<Book> getBookbycategory(String category)throws CategoryNotFoundException;;
 
 }

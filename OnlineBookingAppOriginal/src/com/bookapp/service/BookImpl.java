@@ -3,11 +3,11 @@ package com.bookapp.service;
 import java.util.*;
 import java.util.stream.*;
 
-import com.bookapp.bean.Book;
 import com.bookapp.exception.AuthorNotFoundException;
 import com.bookapp.exception.CategoryNotFoundException;
+import com.bookapp.model.Book;
 
-public class BookImpl implements BookInter {
+public class BookImpl implements IBookService {
 	List<Book> booklist=new ArrayList<Book>();
 	@Override
 	public void addBook(Book book) {

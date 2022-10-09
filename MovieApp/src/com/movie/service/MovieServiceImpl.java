@@ -4,11 +4,11 @@ package com.movie.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.movie.servicecom.movie.exceptions.IdNotFoundException;
-import com.movie.servicecom.movie.exceptions.MovieNotFoundException;
-import com.movieapp.dao.IMovieDao;
-import com.movieapp.dao.MovieDaoImpl;
-import com.movieapp.model.Movie;
+import com.movie.dao.IMovieDao;
+import com.movie.dao.MovieDaoImpl;
+import com.movie.exceptions.IdNotFoundException;
+import com.movie.exceptions.MovieNotFoundException;
+import com.movie.model.Movie;
 
 public class MovieServiceImpl implements IMovieService {
 	IMovieDao movieDao=new MovieDaoImpl();

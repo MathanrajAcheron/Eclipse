@@ -3,10 +3,10 @@ package com.bookapp.main;
 import java.util.*;
 import java.util.Scanner;
 
-import com.bookapp.bean.Book;
 import com.bookapp.exception.AuthorNotFoundException;
+import com.bookapp.model.Book;
 import com.bookapp.service.BookImpl;
-import com.bookapp.service.BookInter;
+import com.bookapp.service.IBookService;
 
 public class Client {
 
@@ -14,7 +14,7 @@ public class Client {
 		// TODO Auto-generated method stub
 		Scanner sc = new Scanner(System.in);
 	//	Book book = new Book();
-		BookInter bookimpl = new BookImpl();
+		IBookService bookimpl = new BookImpl();
 		System.out.println("Hi,Welcome to Online Booking App....");
 		try {
 			System.out.println("Number of Books to be Added : ");

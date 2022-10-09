@@ -2,9 +2,9 @@ package com.movie.service;
 
 import java.util.List;
 
-import com.movie.servicecom.movie.exceptions.IdNotFoundException;
-import com.movie.servicecom.movie.exceptions.MovieNotFoundException;
-import com.movieapp.model.Movie;
+import com.movie.exceptions.IdNotFoundException;
+import com.movie.exceptions.MovieNotFoundException;
+import com.movie.model.Movie;
 
 public interface IMovieService {
 	List<Movie> getAll();

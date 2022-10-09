@@ -4,11 +4,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
+import com.movie.exceptions.IdNotFoundException;
+import com.movie.exceptions.MovieNotFoundException;
+import com.movie.model.Movie;
 import com.movie.service.IMovieService;
 import com.movie.service.MovieServiceImpl;
-import com.movie.servicecom.movie.exceptions.IdNotFoundException;
-import com.movie.servicecom.movie.exceptions.MovieNotFoundException;
-import com.movieapp.model.Movie;
 
 public class Client {
 

@@ -11,147 +11,129 @@ import com.bookapp.bean.Book;
 import com.bookapp.exception.AuthorNotFoundException;
 import com.bookapp.exception.BookNotFoundException;
 import com.bookapp.exception.CategoryNotFoundException;
+import com.bookapp.util.ModelDAO;
 
-public class BookImpl implements BookInter {
+public class BookService implements IBookService {
 	List<Book> booklist = new ArrayList<Book>();
-	Scanner sc = new Scanner(System.in);
-	Connection connection = ModelDAO.openConnection();
-	// String sql="create table Books(Bookid integer,Title varchar(10),Author
-	// varchar(20),Category varchar(10),Price integer)";
+	
+	
 
-	PreparedStatement ps = null;
-
-	// Connection connection=ModelDAO.openConnection();
 	@Override
 	public void addBook(Book book) {
-//		String insert = "insert into Books(?,?,?,?,?)";
-//		try {
-//			st = connection.prepareStatement(insert);
-//			System.out.println("Enter the BookID: ");
-//			int id = sc.nextInt();
-//			st.setInt(1, id);
-//			System.out.println("Enter the Title: ");
-//			String title = sc.next();
-//			st.setString(2, title);
-//			System.out.println("Enter the Author: ");
-//			String author = sc.next();
-//			st.setString(3, author);
-//			System.out.println("Enter the Category: ");
-//			String category = sc.next();
-//			st.setString(4, category);
-//			System.out.println("Enter the Price: ");
-//			int bookPrice = sc.nextInt();
-//			st.setInt(5, bookPrice);
-//			st.execute();
-//			st.close();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
-		booklist.add(book);
+		Connection connection = ModelDAO.openConnection();
+		PreparedStatement preparedStatement= null;
+		String insert = "insert into Books(?,?,?,?,?)";
+		try {
+			preparedStatement = connection.prepareStatement(insert);
+			preparedStatement.setInt(1, book.getBookid());
+			preparedStatement.setString(2, book.getTitle());
+			preparedStatement.setString(3, book.getAuthor());
+			preparedStatement.setString(4, book.getCategory());
+			preparedStatement.setInt(5, book.getPrice());
+			preparedStatement.execute();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-
-	@Override
-	public List<Book> getAllBooks() {
-//		if(list1.size()!=0){
-//			Iterator<Book> i=list1.iterator();
-//		while(i.hasNext()) {
-//			Book obj=i.next();
-//			System.out.println(obj);
-//			
-//		}}
-
-//		String printall = "select * from Books";
+//
+//	@Override
+//	public List<Book> getAllBooks() {
+//		Connection connection = ModelDAO.openConnection();
+//		PreparedStatement preparedStatement = null;
+//		List<Book> bookList=null;
+//		Book book=null;
+//		String print = "select * from Books";
 //		try {
-//			st = connection.prepareStatement(printall);
-//			ResultSet rs = st.executeQuery(printall);// if error remove sql
-//			while (rs.next()) {
-//				int id = rs.getInt(1);
-//				String title = rs.getString(2);
-//				String author = rs.getString(3);
-//				String cate = rs.getString(4);
-//				int price = rs.getInt(5);
-//				System.out.println("ID: " + id + " Title: " + title + " Author: " + author + " Category: " + cate
-//						+ " Price: " + price);
+//			preparedStatement = connection.prepareStatement(print);
+//			ResultSet resultSet = preparedStatement.executeQuery();// if error remove sql
+//			while (resultSet.next()) {
+//				book=new Book();
+//				int id = resultSet.getInt(1);
+//				String title = resultSet.getString(2);
+//				String author = resultSet.getString(3);
+//				String category = resultSet.getString(4);
+//				int price = resultSet.getInt(5);
+//				book.setBookid(id);
+//				book.setAuthor(author);
+//				book.setCategory(category);
+//				book.setPrice(price);
+//				book.setTitle(title);
+//				bookList.add(book);
+//
 //			}
 //		} catch (SQLException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-		System.out.println("The size of the BookList is " + booklist.size());
-		Collections.sort(booklist, (b1, b2) -> {
-			return b1.getTitle().compareTo(b2.getTitle());
-		});
-		return booklist;
-
-	}
-
-	@Override
-	public List<Book> getBookbyAuthor(String author) throws AuthorNotFoundException {
-		List<Book> searchByAuthor = new ArrayList<>();
-		// searchByAuthor=null;
-
-		// System.out.println("Searching.......");
-
-		for (Book search : booklist) {
-			if (search.getAuthor().equalsIgnoreCase(author)) {
-				searchByAuthor.add(search);
-			}
-		}
-		// System.out.println("Sorting the Author...........");
-
-		Collections.sort(searchByAuthor, (b1, b2) -> {
-			return b1.getAuthor().compareTo(b2.getAuthor());
-		});
-		System.out.println("The Total number of books published by Author: " + searchByAuthor.size());
-//			for(Book book1:searchByAuthor) {
-//				System.out.println(book1);
+//		try {
+//			preparedStatement.close();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		System.out.println("The size of the BookList is " + booklist.size());
+//		Collections.sort(booklist, (book1, book2) -> {
+//			return book1.getTitle().compareTo(book2.getTitle());
+//		});
+//		return bookList;
+//
+//	}
+//
+//	@Override
+//	public List<Book> getBookbyAuthor(String author) throws AuthorNotFoundException {
+//		List<Book> bookList = new ArrayList<>();
+//
+//		for (Book search : booklist) {
+//			if (search.getAuthor().equalsIgnoreCase(author)) {
+//				bookList.add(search);
 //			}
-		if (searchByAuthor.isEmpty()) {
-			throw new AuthorNotFoundException("\nAuthor is not Found.........");
-			// throw new AuthorNotFoundException("\nAuthor is not Found");
-		}
-
-		return searchByAuthor;
-	}
-
-	@Override
-	public List<Book> getBookbycategory(String category) throws CategoryNotFoundException {
-
-		List<Book> booksByCategory = booklist.stream().filter(book -> book.getCategory().equals(category))
-				.sorted((b1, b2) -> b1.getTitle().compareTo(b2.getTitle()))
-
-				.collect(Collectors.toList());
-
+//		}
+//
+//		Collections.sort(bookList, (book1, book2) -> {
+//			return book1.getAuthor().compareTo(book2.getAuthor());
+//		});
+//		System.out.println("The Total number of books published by Author: " + bookList.size());
+//
+//		if (bookList.isEmpty()) {
+//			throw new AuthorNotFoundException("\nAuthor is not Found.........");
+//		}
+//
+//		return bookList;
+//	}
+//
+//	@Override
+//	public List<Book> getBookbycategory(String category) throws CategoryNotFoundException {
+//
+//		List<Book> bookList = booklist.stream().filter(book -> book.getCategory().equals(category))
+//				.sorted((book1, book2) -> book1.getTitle().compareTo(book2.getTitle()))
+//
+//				.collect(Collectors.toList());
+//
 //	
-		if (booksByCategory.isEmpty()) {
-			throw new CategoryNotFoundException("Category is not found");
-		}
-
-		return booksByCategory;
-	}
+//		if (bookList.isEmpty()) {
+//			throw new CategoryNotFoundException("Category is not found");
+//		}
+//
+//		return bookList;
+//	}
 
 	@Override
 	public boolean deleteBook(int bookid) throws BookNotFoundException {
+		Connection connection = ModelDAO.openConnection();
+
+		PreparedStatement preparedStatement = null;
 		boolean flag = false;
 		String getBookById = "delete from books  where Bookid=?";
 		try {
 
-			ps = connection.prepareStatement(getBookById);
-			ps.setInt(1, bookid);
-			ps.execute();
-//			ResultSet rs = ps.executeQuery();
+			preparedStatement = connection.prepareStatement(getBookById);
+			preparedStatement.setInt(1, bookid);
+			preparedStatement.execute();
+//			ResultSet resultSet = preparedStatement.executeQuery();
 		flag = true;
-//			while (rs.next()) {
-//				int id = rs.getInt(1);
-//				String title = rs.getString(2);
-//				String author = rs.getString(3);
-//				String category = rs.getString(4);
-//				int localprice = rs.getInt(5);
-//				System.out.println(id + "\t" + title + "\t" + author + "\t" + category + "\t" + localprice);
-//			}
-			ps.close();
+
+			preparedStatement.close();
 		} catch (SQLException e) {
 			throw new BookNotFoundException("Book Not Found....");
 		}
@@ -160,48 +142,49 @@ public class BookImpl implements BookInter {
 
 	@Override
 	public Book getBookById(int bookid) throws BookNotFoundException {
-		// TODO Auto-generated method stub
+		Connection connection = ModelDAO.openConnection();
+		Book book=null;
+		PreparedStatement preparedStatement = null;
 		String getBookById = "select * from books where Bookid=?";
 		try {
-			ps = connection.prepareStatement(getBookById);
-			ps.setInt(1, bookid);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				int id = rs.getInt(1);
-				String title = rs.getString(2);
-				String author = rs.getString(3);
-				String category = rs.getString(4);
-				int price = rs.getInt(5);
-				System.out.println(id + "\t" + title + "\t" + author + "\t" + category + "\t" + price);
+			preparedStatement = connection.prepareStatement(getBookById);
+			preparedStatement.setInt(1, bookid);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				book=new Book();
+				int id = resultSet.getInt(1);
+				String title = resultSet.getString(2);
+				String author = resultSet.getString(3);
+				String category = resultSet.getString(4);
+				int price = resultSet.getInt(5);
+				book.setBookid(id);
+				book.setTitle(title);
+				book.setAuthor(author);
+				book.setPrice(price);
+				book.setCategory(category);
 			}
-			ps.close();
+			preparedStatement.close();
 		} catch (SQLException e) {
 			throw new BookNotFoundException("Book Not Found....");
 		}
-		return null;
+		return book;
 	}
 
 	@Override
 	public boolean updateBook(int bookid, int price) {
+		Connection connection = ModelDAO.openConnection();
+		PreparedStatement preparedStatement = null;
 		boolean flag = false;
 		String getBookById = "update books set Price=? where Bookid=?";
 		try {
 
-			ps = connection.prepareStatement(getBookById);
-			ps.setInt(1, price);
-			ps.setInt(2, bookid);
-			ps.execute();
-//			ResultSet rs = ps.executeQuery();
+			preparedStatement = connection.prepareStatement(getBookById);
+			preparedStatement.setInt(1, price);
+			preparedStatement.setInt(2, bookid);
+			preparedStatement.execute();
+//			ResultSet resultSet = preparedStatement.executeQuery();
 			flag = true;
-//			while (rs.next()) {
-//				int id = rs.getInt(1);
-//				String title = rs.getString(2);
-//				String author = rs.getString(3);
-//				String category = rs.getString(4);
-//				int localprice = rs.getInt(5);
-//				System.out.println(id + "\t" + title + "\t" + author + "\t" + category + "\t" + localprice);
-//			}
-			ps.close();
+			preparedStatement.close();
 		} catch (SQLException e) {
 			flag = false;
 			e.printStackTrace();

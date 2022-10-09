@@ -7,7 +7,7 @@ public class ElectionBooth {
 	boolean checkAge(int age) throws UnderAgeException{
 		boolean flag=true;
 		if(age<18) {
-			throw new UnderAgeException("Age is less than 18....\nYou are not Eligibile to Vote");
+			throw new UnderAgeException("Age is less than 18....");
 		}
 		return flag;
 		
@@ -19,13 +19,12 @@ public class ElectionBooth {
 		boolean flag=false;
 		for(String nlocal:localalities) {
 			if(nlocal.equalsIgnoreCase(locality)) {
-				System.out.println(nlocal);
 				flag=true;
 				break;
 			}
 		}
 		if(!flag) {
-			throw new LocalityNotFoundException("Locality not Found.....\nYou are not Eligibile to Vote");
+			throw new LocalityNotFoundException("Locality not Found.....");
 		}
 		return flag;
 	}
@@ -36,7 +35,7 @@ public class ElectionBooth {
 			
 		}else {
 			
-			throw new NoVoterIDException("VoterID is not found.....\nYou are not Eligibile to Vote");
+			throw new NoVoterIDException("VoterID is not found.....");
 		}
 		return flag;
 		
@@ -61,8 +60,8 @@ public class ElectionBooth {
 //			
 //		}}
 		}
-		catch(NotEligibleException e) {
-			throw new NotEligibleException("Your are not eligible to Vote...");
+		catch(Exception e) {
+			throw e;
 		}
 		return flag;
 		
