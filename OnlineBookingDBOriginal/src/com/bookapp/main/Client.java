@@ -25,7 +25,7 @@ public class Client {
 		try {
 
 			while (true) {
-				System.out.println("1.SQL \t 2.List");
+				System.out.println("Press 1 to continue.......");
 				int choice = sc.nextInt();
 				switch (choice) {
 				case 1:// System.out.println("We have already Created Table\nTable Name:Books\nColumns
